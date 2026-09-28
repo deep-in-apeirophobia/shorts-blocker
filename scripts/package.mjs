@@ -6,6 +6,7 @@ for (const browser of ['firefox', 'chromium']) {
   await rm(target, { recursive: true, force: true });
   await mkdir(target, { recursive: true });
   for (const file of files) await cp(new URL(`../${file}`, import.meta.url), new URL(file, target));
+  await cp(new URL('../icons/', import.meta.url), new URL('icons/', target), { recursive: true });
   const manifest = browser === 'firefox' ? 'manifest.json' : 'manifest.chromium.json';
   await writeFile(new URL('manifest.json', target), await readFile(new URL(`../${manifest}`, import.meta.url)));
   console.log(`Packaged dist/${browser}`);

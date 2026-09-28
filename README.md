@@ -1,3 +1,5 @@
+<img src="icons/icon-128.png" alt="Short Break icon" width="96" height="96">
+
 # Short Break
 
 A Firefox and Zen extension that tracks time spent on YouTube Shorts and blocks the feed at your daily limit.
@@ -55,6 +57,8 @@ npm run build
 ```
 
 After editing files, click Reload for Short Break in `about:debugging` and reload YouTube. The build command copies the runtime files into `dist/firefox` and `dist/chromium`.
+
+`icon.png` is the original artwork. To regenerate the extension icons and GitHub social-preview image, install ImageMagick 7 and run `bash scripts/generate-icons.sh`. The generated PNGs are checked in, so building the extension does not require ImageMagick. The repository's social-preview image is `docs/social-preview.png`; upload it under GitHub repository Settings → General → Social preview.
 
 For a manual smoke test, set a one-minute limit and open a Short. Confirm the badge counts down, switch to another tab and confirm the total stops increasing, then return until the block appears. Try the mouse wheel, arrow keys, touch scrolling, and refreshing. Open another Shorts tab to confirm the shared block. Use the home link to confirm regular YouTube still works. Raise the limit in the popup and confirm Shorts becomes available again. Solve a Sudoku, watch three Shorts, and confirm the fourth is blocked. Try an incorrect solution and confirm it grants no credit.
 
