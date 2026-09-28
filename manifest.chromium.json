@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Short Break",
+  "version": "1.0.0",
+  "description": "Track your time on YouTube Shorts and stop the feed at your daily limit.",
+  "permissions": ["storage"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": { "default_popup": "popup.html", "default_title": "Short Break" },
+  "content_scripts": [{
+    "matches": ["https://www.youtube.com/*", "https://youtube.com/*", "https://m.youtube.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_start"
+  }]
+}

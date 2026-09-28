@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out tagged revision
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Run tests
+        run: npm test
+
+      - name: Check JavaScript syntax
+        run: npm run check
+
+      - name: Build browser packages
+        run: npm run build
+
+      - name: Lint Firefox package
+        run: npx --yes web-ext@10.7.0 lint --source-dir dist/firefox --warnings-as-errors
+
+      - name: Create browser archives
+        shell: bash
+        run: |
+          release_name=${GITHUB_REF_NAME//\//-}
+          (cd dist/firefox && zip -q -r "../../short-break-firefox-${release_name}.zip" .)
+          (cd dist/chromium && zip -q -r "../../short-break-chromium-${release_name}.zip" .)
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          release_name=${GITHUB_REF_NAME//\//-}
+          gh release create "$GITHUB_REF_NAME" \
+            "short-break-firefox-${release_name}.zip" \
+            "short-break-chromium-${release_name}.zip" \
+            --verify-tag \
+            --generate-notes \
+            --notes "The Firefox archive is unsigned. Install it temporarily for testing or submit it to Mozilla Add-ons for signing before normal distribution."

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Short Break</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="popup.js" type="module"></script>
+</head>
+<body>
+  <header><span class="brand-mark" aria-hidden="true">Ⅱ</span><span>short break<span class="brand-sub">A little less scrolling.</span></span><span class="day">TODAY</span></header>
+  <main>
+    <p class="eyebrow">YOUR SHORTS TIME</p>
+    <div class="timer"><span id="used">0:00</span><span class="timer-unit">spent today</span></div>
+    <progress id="progress" value="0" max="100" aria-label="Daily limit used"></progress>
+    <div class="usage-caption"><span id="remaining">Loading your time…</span><span id="limit-label">15 min limit</span></div>
+    <section class="status-card"><span class="status-dot" id="status-dot"></span><div><h1 id="status-title">Make room for something else.</h1><p id="status-copy">Shorts will pause when your time is up.</p></div></section>
+    <form id="limit-form">
+      <label for="minutes">Daily time limit</label>
+      <p class="hint" id="limit-hint">Resets every day at midnight.</p>
+      <div class="input-row"><div class="number-field"><input id="minutes" type="number" min="1" max="1440" step="1" value="15" required aria-describedby="limit-hint"><span>minutes</span></div><button type="submit" id="save">Save limit</button></div>
+      <p id="feedback" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+  <footer>Only active Shorts time counts. Stored on this device.</footer>
+</body>
+</html>

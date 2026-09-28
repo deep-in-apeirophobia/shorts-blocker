@@ -1,0 +1,11 @@
+{
+  "name": "short-break",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check background.js && node --check tracking.js && node --check content.js && node --check popup.js && node --check sudoku.js",
+    "build": "node scripts/package.mjs"
+  }
+}

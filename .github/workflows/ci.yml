@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Run tests
+        run: npm test
+
+      - name: Check JavaScript syntax
+        run: npm run check
+
+      - name: Build browser packages
+        run: npm run build
+
+      - name: Lint Firefox package
+        run: npx --yes web-ext@10.7.0 lint --source-dir dist/firefox --warnings-as-errors
+
+      - name: Upload Firefox package
+        uses: actions/upload-artifact@v7
+        with:
+          name: short-break-firefox
+          path: dist/firefox
+          if-no-files-found: error
+
+      - name: Upload Chromium package
+        uses: actions/upload-artifact@v7
+        with:
+          name: short-break-chromium
+          path: dist/chromium
+          if-no-files-found: error
